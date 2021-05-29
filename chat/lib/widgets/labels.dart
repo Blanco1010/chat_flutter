@@ -3,9 +3,7 @@ import 'package:flutter/material.dart';
 class Labels extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    final screenSize = MediaQuery.of(context).size;
     return Container(
-      margin: EdgeInsets.only(top: screenSize.height * 0.05),
       child: Column(
         children: <Widget>[
           Text(

@@ -8,13 +8,12 @@ class Logo extends StatelessWidget {
       child: Container(
         margin: EdgeInsets.only(
           top: screenSize.height * 0.09,
-          bottom: screenSize.height * 0.09,
         ),
         child: Column(
           children: <Widget>[
             Image(
               image: AssetImage('assets/img/tag-logo.png'),
-              width: screenSize.width * 0.45,
+              width: screenSize.width * 0.40,
             ),
             SizedBox(
               height: 20,
