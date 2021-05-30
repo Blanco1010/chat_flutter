@@ -1,6 +1,13 @@
 import 'package:flutter/material.dart';
 
 class Logo extends StatelessWidget {
+  final String titulo;
+
+  const Logo({
+    Key key,
+    @required this.titulo,
+  }) : super(key: key);
+
   @override
   Widget build(BuildContext context) {
     final screenSize = MediaQuery.of(context).size;
@@ -8,6 +15,7 @@ class Logo extends StatelessWidget {
       child: Container(
         margin: EdgeInsets.only(
           top: screenSize.height * 0.09,
+          bottom: screenSize.height * 0.1,
         ),
         child: Column(
           children: <Widget>[
@@ -19,7 +27,7 @@ class Logo extends StatelessWidget {
               height: 20,
             ),
             Text(
-              'Messenger',
+              this.titulo,
               style: TextStyle(fontSize: screenSize.width * 0.077),
             ),
           ],

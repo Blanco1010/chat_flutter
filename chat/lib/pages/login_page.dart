@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:chat/widgets/boton_azul.dart';
 import 'package:chat/widgets/textterm.dart';
 import 'package:chat/widgets/labels.dart';
 import 'package:chat/widgets/logo.dart';
@@ -10,14 +11,21 @@ class LoginPage extends StatelessWidget {
     return Scaffold(
       backgroundColor: Color(0xFFF2F2F2),
       body: SafeArea(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: <Widget>[
-            Logo(),
-            _Form(),
-            Labels(),
-            TextTerm(),
-          ],
+        child: SingleChildScrollView(
+          physics: BouncingScrollPhysics(),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: <Widget>[
+              Logo(titulo: 'Messenger'),
+              _Form(),
+              Labels(
+                ruta: 'register',
+                titulo: '¿No tienes cuenta?',
+                subtitulo: 'Crea una ahora!',
+              ),
+              TextTerm(),
+            ],
+          ),
         ),
       ),
     );
@@ -53,10 +61,13 @@ class __FormState extends State<_Form> {
             textController: passCtrl,
             isPassword: true,
           ),
-          MaterialButton(onPressed: () {
-            print(emailCtrl);
-            print(passCtrl);
-          })
+          BotonAzul(
+            text: 'Ingrese',
+            onPressed: () {
+              print('Correo: ${emailCtrl.text}');
+              print('Contraseña: ${passCtrl.text}');
+            },
+          )
         ],
       ),
     );
