@@ -11,6 +11,11 @@ require('./database/config').dbConnection();
 // App de Express
 const app = express();
 
+// Lectura y parseo del Body
+app.use(express.json());
+
+
+
 // Node Server
 const server = require('http').createServer(app);
 module.exports.io = require('socket.io')(server);
@@ -22,6 +27,10 @@ require('./sockets/socket');
 // Path público
 const publicPath = path.resolve( __dirname, 'public' );
 app.use( express.static( publicPath ) );
+
+
+// Mis rutas
+app.use('/api/login',require('./routers/auth'));
 
 
 
