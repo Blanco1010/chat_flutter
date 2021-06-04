@@ -1,27 +1,23 @@
 const { response } = require("express");
-const { validationResult } = require("express-validator");
+
+const Usuario = require('../models/usuario');
 
 
-const crearUsuario = (req,res = response) => {
+const crearUsuario = async (req,res = response) => {
 
-    const errores = validationResult(req);
+    const usuario = new Usuario(req.body);
 
-    if(!errores.isEmpty()){
-        return res.status(400).json({
-            ok:false,
-            errors: errores.mapped()
-        });
-    }
-
+    await usuario.save();
 
     res.json({
         ok:true,
-        msg: 'Crear usuario!!!'
+        body: req.body
     });
 }
-
-
 
 module.exports = {
     crearUsuario
 }
+
+
+
