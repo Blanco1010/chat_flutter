@@ -1,4 +1,6 @@
+import 'package:chat/services/auth_service.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:chat/widgets/text_term.dart';
 import 'package:chat/widgets/boton_azul.dart';
 
@@ -67,6 +69,10 @@ class __FormState extends State<_Form> {
             onPressed: () {
               print('Correo: ${emailCtrl.text}');
               print('Contraseña: ${passCtrl.text}');
+              final authSerive =
+                  Provider.of<AuthSerive>(context, listen: false);
+
+              authSerive.login(emailCtrl.text, passCtrl.text);
             },
           )
         ],
