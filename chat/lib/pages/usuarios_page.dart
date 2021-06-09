@@ -12,11 +12,16 @@ class _UsuariosPageState extends State<UsuariosPage> {
       RefreshController(initialRefresh: false);
 
   final usuarios = [
-    Usuario(uid: '1', email: 'test1@gmail.com', nombre: 'Blanco', online: true),
-    Usuario(uid: '2', email: 'test2@gmail.com', nombre: 'David', online: true),
-    Usuario(uid: '3', email: 'test3@gmail.com', nombre: 'Alejo', online: false),
-    Usuario(uid: '4', email: 'test4@gmail.com', nombre: 'María', online: false),
-    Usuario(uid: '5', email: 'test5@gmail.com', nombre: 'Camila', online: true),
+    Usuario(
+        uid: '1', email: 'test1@gmail.com', nombre: 'Blanco', isOnline: true),
+    Usuario(
+        uid: '2', email: 'test2@gmail.com', nombre: 'David', isOnline: true),
+    Usuario(
+        uid: '3', email: 'test3@gmail.com', nombre: 'Alejo', isOnline: false),
+    Usuario(
+        uid: '4', email: 'test4@gmail.com', nombre: 'María', isOnline: false),
+    Usuario(
+        uid: '5', email: 'test5@gmail.com', nombre: 'Camila', isOnline: true),
   ];
 
   @override
@@ -82,7 +87,7 @@ class _UsuariosPageState extends State<UsuariosPage> {
           width: 10,
           height: 10,
           decoration: BoxDecoration(
-              color: usuario.online ? Colors.green[100] : Colors.red,
+              color: usuario.isOnline ? Colors.green[100] : Colors.red,
               borderRadius: BorderRadius.circular(100))),
     );
   }
