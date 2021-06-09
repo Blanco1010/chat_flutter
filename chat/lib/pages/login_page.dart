@@ -46,6 +46,7 @@ class __FormState extends State<_Form> {
 
   @override
   Widget build(BuildContext context) {
+    final authSerive = Provider.of<AuthSerive>(context);
     final screenSize = MediaQuery.of(context).size;
     return Container(
       margin: EdgeInsets.only(top: screenSize.height * 0.01),
@@ -66,14 +67,14 @@ class __FormState extends State<_Form> {
           ),
           BotonAzul(
             text: 'Ingrese',
-            onPressed: () {
-              print('Correo: ${emailCtrl.text}');
-              print('Contraseña: ${passCtrl.text}');
-              final authSerive =
-                  Provider.of<AuthSerive>(context, listen: false);
+            onPressed: authSerive.autenticando
+                ? null
+                : () {
+                    FocusScope.of(context).unfocus(); //Ocultar el teclado
 
-              authSerive.login(emailCtrl.text, passCtrl.text);
-            },
+                    authSerive.login(
+                        emailCtrl.text.trim(), passCtrl.text.trim());
+                  },
           )
         ],
       ),

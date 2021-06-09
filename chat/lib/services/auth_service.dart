@@ -8,8 +8,17 @@ import 'package:flutter/material.dart';
 
 class AuthSerive with ChangeNotifier {
   Usuario usuario;
+  bool _autenticando = false;
+
+  bool get autenticando => this._autenticando;
+  set autenticando(bool valor) {
+    this._autenticando = valor;
+    notifyListeners();
+  }
 
   Future login(String email, String password) async {
+    this.autenticando = true;
+
     final data = {'email': email, 'password': password};
 
     final url = Uri.parse('${Enviroment.apiUrl}/login');
@@ -25,5 +34,7 @@ class AuthSerive with ChangeNotifier {
       final loginResponse = loginResponseFromJson(resp.body);
       this.usuario = loginResponse.usuario;
     }
+    this._autenticando = false;
+    notifyListeners();
   }
 }

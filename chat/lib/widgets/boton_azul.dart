@@ -12,6 +12,7 @@ class BotonAzul extends StatelessWidget {
       elevation: 2.0,
       highlightElevation: 5,
       color: Colors.blue,
+      disabledColor: Colors.grey,
       shape: StadiumBorder(),
       child: Container(
         width: double.infinity,
