@@ -16,7 +16,7 @@ class AuthSerive with ChangeNotifier {
     notifyListeners();
   }
 
-  Future login(String email, String password) async {
+  Future<bool> login(String email, String password) async {
     this.autenticando = true;
 
     final data = {'email': email, 'password': password};
@@ -30,11 +30,19 @@ class AuthSerive with ChangeNotifier {
     );
 
     print(resp.body);
+    this._autenticando = false;
+
     if (resp.statusCode == 200) {
       final loginResponse = loginResponseFromJson(resp.body);
       this.usuario = loginResponse.usuario;
+
+      //TODO: Guardar el token
+
+      notifyListeners();
+      return true;
+    } else {
+      notifyListeners();
+      return false;
     }
-    this._autenticando = false;
-    notifyListeners();
   }
 }

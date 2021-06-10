@@ -7,6 +7,7 @@ import 'package:chat/widgets/boton_azul.dart';
 import 'package:chat/widgets/labels.dart';
 import 'package:chat/widgets/logo.dart';
 import 'package:chat/widgets/custom_input.dart';
+import 'package:chat/helpers/mostrar_alerta.dart';
 
 class LoginPage extends StatelessWidget {
   @override
@@ -69,11 +70,20 @@ class __FormState extends State<_Form> {
             text: 'Ingrese',
             onPressed: authSerive.autenticando
                 ? null
-                : () {
+                : () async {
                     FocusScope.of(context).unfocus(); //Ocultar el teclado
 
-                    authSerive.login(
+                    final loginOk = await authSerive.login(
                         emailCtrl.text.trim(), passCtrl.text.trim());
+
+                    if (loginOk) {
+                      //Navegar a otra pantalla
+
+                    } else {
+                      //mostrar alerta
+                      mostrarAlerta(context, 'Login incorrecto',
+                          'Revise sus credenciales');
+                    }
                   },
           )
         ],
