@@ -34,7 +34,10 @@ class AuthSerive with ChangeNotifier {
   Future<bool> login(String email, String password) async {
     this.autenticando = true;
 
-    final data = {'email': email, 'password': password};
+    final data = {
+      'email': email,
+      'password': password,
+    };
 
     final url = Uri.parse('${Enviroment.apiUrl}/login');
 
@@ -58,6 +61,41 @@ class AuthSerive with ChangeNotifier {
     } else {
       notifyListeners();
       return false;
+    }
+  }
+
+  Future register(String nombre, String email, String password) async {
+    this.autenticando = true;
+
+    final data = {
+      'nombre': nombre,
+      'email': email,
+      'password': password,
+    };
+
+    final url = Uri.parse('${Enviroment.apiUrl}/login/new');
+
+    final resp = await http.post(
+      url,
+      body: jsonEncode(data),
+      headers: {'Content-Type': 'application/json'},
+    );
+
+    print(resp.body);
+    this._autenticando = false;
+
+    if (resp.statusCode == 200) {
+      final loginResponse = loginResponseFromJson(resp.body);
+      this.usuario = loginResponse.usuario;
+
+      await this._guardarToken(loginResponse.token);
+
+      notifyListeners();
+      return true;
+    } else {
+      final respBody = jsonDecode(resp.body);
+      notifyListeners();
+      return respBody['msg'];
     }
   }
 

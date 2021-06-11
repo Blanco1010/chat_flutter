@@ -78,7 +78,7 @@ class __FormState extends State<_Form> {
 
                     if (loginOk) {
                       //Navegar a otra pantalla
-
+                      Navigator.pushReplacementNamed(context, 'usuarios');
                     } else {
                       //mostrar alerta
                       mostrarAlerta(context, 'Login incorrecto',
