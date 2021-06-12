@@ -47,7 +47,6 @@ class AuthSerive with ChangeNotifier {
       headers: {'Content-Type': 'application/json'},
     );
 
-    print(resp.body);
     this._autenticando = false;
 
     if (resp.statusCode == 200) {
@@ -81,7 +80,6 @@ class AuthSerive with ChangeNotifier {
       headers: {'Content-Type': 'application/json'},
     );
 
-    print(resp.body);
     this._autenticando = false;
 
     if (resp.statusCode == 200) {
@@ -109,8 +107,6 @@ class AuthSerive with ChangeNotifier {
       headers: {'Content-Type': 'application/json', 'x-token': token},
     );
 
-    print(resp.body);
-
     if (resp.statusCode == 200) {
       final loginResponse = loginResponseFromJson(resp.body);
       this.usuario = loginResponse.usuario;
@@ -121,8 +117,8 @@ class AuthSerive with ChangeNotifier {
       return true;
     } else {
       this.logout();
-      return false;
       notifyListeners();
+      return false;
     }
   }
 
