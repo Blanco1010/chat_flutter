@@ -1,3 +1,4 @@
+import 'package:chat/services/socket_service.dart';
 import 'package:flutter/material.dart';
 import 'package:chat/models/usuarios.dart';
 import 'package:provider/provider.dart';
@@ -29,6 +30,9 @@ class _UsuariosPageState extends State<UsuariosPage> {
   @override
   Widget build(BuildContext context) {
     final authSerive = Provider.of<AuthSerive>(context);
+
+    final socketService = Provider.of<SocketService>(context);
+
     final usuario = authSerive.usuario;
 
     return Scaffold(
@@ -46,8 +50,7 @@ class _UsuariosPageState extends State<UsuariosPage> {
               color: Colors.black54,
             ),
             onPressed: () {
-              //TODO: Desconectar el socker server
-              AuthSerive.deleteToken();
+              socketService.disconnect();
               Navigator.pushReplacementNamed(context, 'login');
               AuthSerive.deleteToken();
             },
@@ -55,8 +58,9 @@ class _UsuariosPageState extends State<UsuariosPage> {
           actions: <Widget>[
             Container(
               margin: EdgeInsets.only(right: 10),
-              child: Icon(Icons.check_circle, color: Colors.blue[400]),
-              // Icon(Icons.offline_bolt, color: Colors.red[400]),
+              child: socketService.serverStatus == ServerStatus.Online
+                  ? Icon(Icons.check_circle, color: Colors.blue[400])
+                  : Icon(Icons.offline_bolt, color: Colors.red[400]),
             )
           ],
         ),

@@ -1,7 +1,10 @@
-import 'package:chat/pages/login_page.dart';
-import 'package:chat/pages/usuarios_page.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+
+import 'package:chat/pages/login_page.dart';
+import 'package:chat/pages/usuarios_page.dart';
+
+import 'package:chat/services/socket_service.dart';
 import 'package:chat/services/auth_service.dart';
 
 class LoagindPage extends StatelessWidget {
@@ -23,11 +26,12 @@ class LoagindPage extends StatelessWidget {
 Future chekLoginState(BuildContext context) async {
   final authSerive = Provider.of<AuthSerive>(context, listen: false);
 
+  final socketService = Provider.of<SocketService>(context);
+
   final autenticado = await authSerive.isLoggedIn();
 
   if (autenticado) {
-    //TODO: conectar al socket server
-
+    socketService.connect();
     // Navigator.pushReplacementNamed(context, 'usuarios');
     Navigator.pushReplacement(
       context,

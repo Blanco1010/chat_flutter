@@ -1,13 +1,16 @@
-import 'package:chat/services/auth_service.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+
+import 'package:chat/helpers/mostrar_alerta.dart';
+
+import 'package:chat/services/auth_service.dart';
+import 'package:chat/services/socket_service.dart';
+
 import 'package:chat/widgets/text_term.dart';
 import 'package:chat/widgets/boton_azul.dart';
-
 import 'package:chat/widgets/labels.dart';
 import 'package:chat/widgets/logo.dart';
 import 'package:chat/widgets/custom_input.dart';
-import 'package:chat/helpers/mostrar_alerta.dart';
 
 class LoginPage extends StatelessWidget {
   @override
@@ -48,7 +51,11 @@ class __FormState extends State<_Form> {
   @override
   Widget build(BuildContext context) {
     final authSerive = Provider.of<AuthSerive>(context);
+
+    final socketService = Provider.of<SocketService>(context);
+
     final screenSize = MediaQuery.of(context).size;
+
     return Container(
       margin: EdgeInsets.only(top: screenSize.height * 0.01),
       padding: EdgeInsets.symmetric(horizontal: screenSize.width * 0.08),
@@ -78,6 +85,7 @@ class __FormState extends State<_Form> {
 
                     if (loginOk) {
                       //Navegar a otra pantalla
+                      socketService.connect();
                       Navigator.pushReplacementNamed(context, 'usuarios');
                     } else {
                       //mostrar alerta
