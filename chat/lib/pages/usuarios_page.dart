@@ -1,8 +1,11 @@
-import 'package:chat/services/socket_service.dart';
 import 'package:flutter/material.dart';
-import 'package:chat/models/usuarios.dart';
 import 'package:provider/provider.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
+
+import 'package:chat/models/usuarios.dart';
+
+import 'package:chat/services/socket_service.dart';
+import 'package:chat/services/usuarios_service.dart';
 import 'package:chat/services/auth_service.dart';
 
 class UsuariosPage extends StatefulWidget {
@@ -11,21 +14,30 @@ class UsuariosPage extends StatefulWidget {
 }
 
 class _UsuariosPageState extends State<UsuariosPage> {
+  final usuariosService = new UsuariosService();
+
   RefreshController _refreshController =
       RefreshController(initialRefresh: false);
 
-  final usuarios = [
-    Usuario(
-        uid: '1', email: 'test1@gmail.com', nombre: 'Blanco', isOnline: true),
-    Usuario(
-        uid: '2', email: 'test2@gmail.com', nombre: 'David', isOnline: true),
-    Usuario(
-        uid: '3', email: 'test3@gmail.com', nombre: 'Alejo', isOnline: false),
-    Usuario(
-        uid: '4', email: 'test4@gmail.com', nombre: 'María', isOnline: false),
-    Usuario(
-        uid: '5', email: 'test5@gmail.com', nombre: 'Camila', isOnline: true),
-  ];
+  List<Usuario> usuarios = [];
+
+  //   Usuario(
+  //       uid: '1', email: 'test1@gmail.com', nombre: 'Blanco', isOnline: true),
+  //   Usuario(
+  //       uid: '2', email: 'test2@gmail.com', nombre: 'David', isOnline: true),
+  //   Usuario(
+  //       uid: '3', email: 'test3@gmail.com', nombre: 'Alejo', isOnline: false),
+  //   Usuario(
+  //       uid: '4', email: 'test4@gmail.com', nombre: 'María', isOnline: false),
+  //   Usuario(
+  //       uid: '5', email: 'test5@gmail.com', nombre: 'Camila', isOnline: true),
+  // ];
+
+  @override
+  void initState() {
+    this._cargarUsuarios();
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -107,7 +119,9 @@ class _UsuariosPageState extends State<UsuariosPage> {
   }
 
   _cargarUsuarios() async {
-    await Future.delayed(Duration(milliseconds: 1000));
+    this.usuarios = await usuariosService.getUsuarios();
+    setState(() {});
+    // await Future.delayed(Duration(milliseconds: 1000));
     // if failed,use loadFailed(),if no data return,use LoadNodata()
     _refreshController.refreshCompleted();
   }
