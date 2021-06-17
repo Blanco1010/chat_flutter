@@ -1,8 +1,13 @@
 import 'dart:io';
 
-import 'package:chat/widgets/chat_message.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+
+import 'package:chat/services/chat_service.dart';
+
+import 'package:chat/widgets/chat_message.dart';
+
+import 'package:flutter/cupertino.dart';
 
 class ChatPage extends StatefulWidget {
   @override
@@ -11,6 +16,7 @@ class ChatPage extends StatefulWidget {
 
 class _ChatPageState extends State<ChatPage> with TickerProviderStateMixin {
   final _textController = TextEditingController();
+
   final _focusNode = new FocusNode();
 
   List<ChatMessage> _messages = [];
@@ -19,6 +25,8 @@ class _ChatPageState extends State<ChatPage> with TickerProviderStateMixin {
 
   @override
   Widget build(BuildContext context) {
+    final chatService = Provider.of<ChatService>(context);
+
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Colors.white,
@@ -26,19 +34,19 @@ class _ChatPageState extends State<ChatPage> with TickerProviderStateMixin {
           children: <Widget>[
             CircleAvatar(
               child: Text(
-                'Te',
+                chatService.usuarioPara.nombre.substring(0, 2),
                 style: TextStyle(
                   fontSize: 12,
                 ),
               ),
               backgroundColor: Colors.blue[100],
-              maxRadius: 14,
+              maxRadius: 15,
             ),
             SizedBox(
               height: 3,
             ),
             Text(
-              'Melissa Flores',
+              chatService.usuarioPara.nombre,
               style: TextStyle(color: Colors.black87, fontSize: 12),
             )
           ],
