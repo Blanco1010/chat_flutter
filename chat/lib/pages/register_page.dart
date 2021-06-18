@@ -51,7 +51,7 @@ class __FormState extends State<_Form> {
 
   @override
   Widget build(BuildContext context) {
-    final authSerive = Provider.of<AuthSerive>(context);
+    final authService = Provider.of<AuthService>(context);
 
     final socketService = Provider.of<SocketService>(context);
 
@@ -82,13 +82,13 @@ class __FormState extends State<_Form> {
           ),
           BotonAzul(
             text: 'Crear cuenta',
-            onPressed: authSerive.autenticando
+            onPressed: authService.autenticando
                 ? null
                 : () async {
                     print('Nombre: ${nameCtrl.text}');
                     print('Correo: ${emailCtrl.text}');
                     print('Contraseña: ${passCtrl.text}');
-                    final registroOk = await authSerive.register(
+                    final registroOk = await authService.register(
                       nameCtrl.text.trim(),
                       emailCtrl.text.trim(),
                       passCtrl.text.trim(),

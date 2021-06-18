@@ -50,7 +50,7 @@ class __FormState extends State<_Form> {
 
   @override
   Widget build(BuildContext context) {
-    final authSerive = Provider.of<AuthSerive>(context);
+    final authSerive = Provider.of<AuthService>(context);
 
     final socketService = Provider.of<SocketService>(context);
 

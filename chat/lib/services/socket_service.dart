@@ -17,7 +17,7 @@ class SocketService with ChangeNotifier {
   Function get emit => this._socket.emit;
 
   void connect() async {
-    final token = await AuthSerive.getToken();
+    final token = await AuthService.getToken();
 
     // Dart client
     this._socket = IO.io(Enviroment.socketUrl, {

@@ -24,7 +24,7 @@ class LoagindPage extends StatelessWidget {
 }
 
 Future chekLoginState(BuildContext context) async {
-  final authSerive = Provider.of<AuthSerive>(context, listen: false);
+  final authSerive = Provider.of<AuthService>(context, listen: false);
 
   final socketService = Provider.of<SocketService>(context);
 

@@ -7,7 +7,7 @@ import 'package:chat/global/environment.dart';
 import 'package:chat/models/login_response.dart';
 import 'package:flutter/material.dart';
 
-class AuthSerive with ChangeNotifier {
+class AuthService with ChangeNotifier {
   Usuario usuario;
   bool _autenticando = false;
 

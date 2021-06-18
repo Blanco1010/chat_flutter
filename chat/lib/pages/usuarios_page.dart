@@ -30,7 +30,7 @@ class _UsuariosPageState extends State<UsuariosPage> {
 
   @override
   Widget build(BuildContext context) {
-    final authSerive = Provider.of<AuthSerive>(context);
+    final authSerive = Provider.of<AuthService>(context);
 
     final socketService = Provider.of<SocketService>(context);
 
@@ -53,7 +53,7 @@ class _UsuariosPageState extends State<UsuariosPage> {
           onPressed: () {
             socketService.disconnect();
             Navigator.pushReplacementNamed(context, 'login');
-            AuthSerive.deleteToken();
+            AuthService.deleteToken();
           },
         ),
         actions: <Widget>[

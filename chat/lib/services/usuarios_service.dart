@@ -15,7 +15,7 @@ class UsuariosService {
         url,
         headers: {
           'Content-Type': 'application/json',
-          'x-token': await AuthSerive.getToken()
+          'x-token': await AuthService.getToken()
         },
       );
 

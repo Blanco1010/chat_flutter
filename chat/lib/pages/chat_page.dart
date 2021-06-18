@@ -4,6 +4,8 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 import 'package:chat/services/chat_service.dart';
+import 'package:chat/services/socket_service.dart';
+import 'package:chat/services/auth_service.dart';
 
 import 'package:chat/widgets/chat_message.dart';
 
@@ -19,13 +21,42 @@ class _ChatPageState extends State<ChatPage> with TickerProviderStateMixin {
 
   final _focusNode = new FocusNode();
 
+  ChatService chatService;
+  SocketService socketService;
+  AuthService authService;
+
   List<ChatMessage> _messages = [];
 
   bool _estaEscribiendo = false;
 
   @override
+  void initState() {
+    super.initState();
+    this.chatService = Provider.of<ChatService>(context, listen: false);
+    this.socketService = Provider.of<SocketService>(context, listen: false);
+    this.authService = Provider.of<AuthService>(context, listen: false);
+
+    this.socketService.socket.on('mensaje-personal', _escucharMensaje);
+  }
+
+  void _escucharMensaje(dynamic payload) {
+    ChatMessage message = new ChatMessage(
+      texto: payload['mensaje'],
+      uid: payload['de'],
+      animationController: AnimationController(
+        vsync: this,
+        duration: Duration(milliseconds: 500),
+      ),
+    );
+    setState(() {
+      _messages.insert(0, message);
+    });
+    message.animationController.forward();
+  }
+
+  @override
   Widget build(BuildContext context) {
-    final chatService = Provider.of<ChatService>(context);
+    final usuarioPara = chatService.usuarioPara;
 
     return Scaffold(
       appBar: AppBar(
@@ -34,7 +65,7 @@ class _ChatPageState extends State<ChatPage> with TickerProviderStateMixin {
           children: <Widget>[
             CircleAvatar(
               child: Text(
-                chatService.usuarioPara.nombre.substring(0, 2),
+                usuarioPara.nombre.substring(0, 2),
                 style: TextStyle(
                   fontSize: 12,
                 ),
@@ -46,7 +77,7 @@ class _ChatPageState extends State<ChatPage> with TickerProviderStateMixin {
               height: 3,
             ),
             Text(
-              chatService.usuarioPara.nombre,
+              usuarioPara.nombre,
               style: TextStyle(color: Colors.black87, fontSize: 12),
             )
           ],
@@ -149,13 +180,19 @@ class _ChatPageState extends State<ChatPage> with TickerProviderStateMixin {
       _estaEscribiendo = false;
     });
 
-    @override
-    void dispose() {
-      //TODO: Off del socket
-      for (ChatMessage message in _messages) {
-        message.animationController.dispose();
-      }
-      super.dispose();
+    this.socketService.emit('mensaje-personal', {
+      'de': this.authService.usuario.uid,
+      'para': this.chatService.usuarioPara.uid,
+      'mensaje': text
+    });
+  }
+
+  @override
+  void dispose() {
+    for (ChatMessage message in _messages) {
+      message.animationController.dispose();
     }
+    this.socketService.socket.off('mensaje-personal', _escucharMensaje);
+    super.dispose();
   }
 }
