@@ -1,6 +1,6 @@
 const { comprobarJWT } = require('../helpers/jwt');
 const { io } = require('../index');
-const {usuarioConectado,usuarioDesconectado} = require('../controllers/socket');
+const {usuarioConectado,usuarioDesconectado, grabarMensaje} = require('../controllers/socket');
 
 
 // Mensajes de Sockets
@@ -18,6 +18,22 @@ io.on('connection', async (client) => {
    usuarioConectado(uid);
 
 
+    // Ingresar al usuario a una sala en particular
+    // sala global, client.id, token
+    client.join(uid);
+
+    //Escuchar del cliente el mensaje-personal
+
+    client.on('mensaje-personal', async (payload) => {
+        //TODO: Grabar mensaje
+        await grabarMensaje( payload );
+        io.to(payload.para).emit('mensaje-personal', payload);
+    });
+
+
+
+
+
     client.on('disconnect', () => {
         console.log('Cliente desconectado');
         usuarioDesconectado(uid);
@@ -25,9 +41,7 @@ io.on('connection', async (client) => {
 
     // client.on('mensaje', ( payload ) => {
     //     console.log('Mensaje', payload);
-
     //     io.emit( 'mensaje', { admin: 'Nuevo mensaje' } );
-
     // });
 
 
